@@ -1,0 +1,1 @@
+# This file is intentionally left empty as we're handling UserProfile creation in views.py 

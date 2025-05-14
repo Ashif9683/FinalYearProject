@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommendation System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>Music Mood</h2>
+        </div>
+        <div class="nav-menu">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    {% if user.userprofile.profile_picture %}
+                        <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile" class="profile-pic">
+                    {% endif %}
+                    <span>Welcome, {{ user.username }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+                <a href="{% url 'register' %}" class="nav-link register-btn">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>Discover Music Through Emotions</h1>
+            <p class="subtitle">Let your feelings guide you to the perfect soundtrack</p>
+        </div>
+        
+        <div class="upload-section">
+            <div class="image-preview" id="imagePreview">
+                <img id="preview" src="#" alt="Preview" style="display: none;">
+                <video id="camera" style="display: none;" autoplay playsinline></video>
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                    <div class="upload-icon">📸</div>
+                    <p>Click or drag image here</p>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <div class="camera-buttons">
+                    <button type="button" class="btn" id="cameraBtn">
+                        <span class="btn-icon">📷</span>
+                        Open Camera
+                    </button>
+                    <button type="button" class="btn" id="captureBtn" style="display: none;">
+                        <span class="btn-icon">📸</span>
+                        Take Photo
+                    </button>
+                </div>
+                <div class="upload-buttons">
+                    <button type="button" class="btn" id="chooseFileBtn">
+                        <span class="btn-icon">📁</span>
+                        Choose File
+                    </button>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    <button type="button" class="btn" id="uploadBtn">
+                        <span class="btn-icon">⬆️</span>
+                        Upload Image
+                    </button>
+                </div>
+            </div>
+            
+            <div class="emotion-display" id="emotionDisplay" style="display: none;">
+                <div class="emotion-icon">😊</div>
+                <p>Detected Emotion: <span id="detectedEmotion"></span></p>
+            </div>
+        </div>
+        
+        <div class="recommendation-section" style="display: none;">
+            <h2>Your Music Recommendations</h2>
+            <div class="song-list"></div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2025 Music Mood. All rights reserved.</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommendation System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Music Recommendation System</h1>
+        
+        <div class="upload-section">
+            <div class="image-preview" id="imagePreview">
+                <img id="preview" src="#" alt="Preview" style="display: none;">
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                    Click or drag image here
+                </div>
+            </div>
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+            <button id="uploadBtn" class="button">Upload Image</button>
+        </div>
+
+        <div class="recommendation-section" style="display: none;">
+            <h2>Recommended Music</h2>
+            <div class="music-player">
+                <div class="song-info">
+                    <h3 id="songTitle">Song Title</h3>
+                    <p id="artistName">Artist Name</p>
+                </div>
+                <audio id="audioPlayer" controls>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html> 

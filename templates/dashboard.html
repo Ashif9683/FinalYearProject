@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="user-profile-header">
+            {% if user.userprofile.profile_picture %}
+                <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-picture-large">
+            {% else %}
+                <div class="profile-picture-placeholder">
+                    <span>{{ user.username|make_list|first|upper }}</span>
+                </div>
+            {% endif %}
+            <div class="user-info-header">
+                <h1>Welcome, {{ user.username }}</h1>
+                <p>Member since {{ user.date_joined|date:"F d, Y" }}</p>
+                {% if user.userprofile.favorite_genres %}
+                    <p class="favorite-genres">Favorite Genres: {{ user.userprofile.favorite_genres }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-card stats-card">
+            <h2>Your Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">{{ total_photos }}</span>
+                    <span class="stat-label">Photos Analyzed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ total_songs }}</span>
+                    <span class="stat-label">Songs Recommended</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ most_common_emotion }}</span>
+                    <span class="stat-label">Most Common Emotion</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card history-card">
+            <h2>Recent Activity</h2>
+            <div class="activity-list">
+                {% for activity in recent_activities %}
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        {% if activity.emotion == 'happy' %}😊
+                        {% elif activity.emotion == 'sad' %}😢
+                        {% elif activity.emotion == 'angry' %}😠
+                        {% elif activity.emotion == 'neutral' %}😐
+                        {% else %}🎵
+                        {% endif %}
+                    </div>
+                    <div class="activity-details">
+                        <p class="activity-title">{{ activity.emotion|title }} - {{ activity.timestamp|date:"M d, Y" }}</p>
+                        <p class="activity-subtitle">{{ activity.song_title }} by {{ activity.artist }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="no-activity">No recent activity yet. Try uploading a photo!</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="dashboard-card recommendations-card">
+            <h2>Your Top Recommendations</h2>
+            <div class="recommendations-list">
+                {% for recommendation in top_recommendations %}
+                <div class="recommendation-item">
+                    <div class="recommendation-info">
+                        <h3>{{ recommendation.song_title }}</h3>
+                        <p>{{ recommendation.artist }}</p>
+                    </div>
+                    {% if recommendation.spotify_embed %}
+                    <div class="spotify-embed">
+                        <iframe src="{{ recommendation.spotify_embed }}" 
+                                width="100%" 
+                                height="80" 
+                                frameborder="0" 
+                                allowtransparency="true" 
+                                allow="encrypted-media">
+                        </iframe>
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="no-recommendations">No recommendations yet. Try the emotion detector!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
